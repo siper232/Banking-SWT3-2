@@ -265,7 +265,7 @@ def makeDeposit():
             exit()
         else:
             if correctMoney(command):
-                if float(command) <= maxTransfer:
+                if float(command) <= maxTransfer and float(command) > 0:
                     clientsInfo[userIdx].makeDeposit(float(command))
                     print("You have successfully deposited " +
                         str(float(command)) + " euros\n")
@@ -274,7 +274,7 @@ def makeDeposit():
                         currentLoanInterest = round(startInterestLoan + (maxAdaptation * math.floor(totalMoney / maxTransfer)), 3)
                     completed = True
                 else:
-                    print("You can only make a deposit of max " + str(maxTransfer) + " euros\nPlease try again\n")
+                    print("You can only make a deposit of max " + str(maxTransfer) + " euros and cannot be smaller than 1 euro\nPlease try again\n")
 
 
 def makeLoanDeposit():
@@ -314,7 +314,7 @@ def makeLoanDeposit():
                                 exit()
                             else:
                                 if correctMoney(command):
-                                    if float(command) <= clientsInfo[userIdx].balance:
+                                    if float(command) <= clientsInfo[userIdx].balance and float(command) > 0:
                                         if float(command) <= clientsInfo[userIdx].loans[loanIdx].amount:
                                             clientsInfo[userIdx].makeLoanDeposit(
                                                 loanIdx, float(command))
@@ -326,7 +326,7 @@ def makeLoanDeposit():
                                                 "You can't deposit more money than needed to pay off your loan.\n")
                                     else:
                                         print(
-                                            "You don't have enough money in your balance to pay this amount.\n")
+                                            "You don't have enough money in your balance to pay this amount or your deposit is less than 1 euro.\n")
                     else:
                         print("This loan does not exist, please try again.\n")
                 except ValueError:
@@ -366,7 +366,7 @@ def makeWithdrawal():
                             print("You can only make a withdraw of max " + str(maxTransfer) + " euros\nPlease try again\n")
                     else:
                         print(
-                            "You do not have the balance to withdraw this amount of money, please input a different amount or type \"cancel\"")
+                            "You do not have the balance to withdraw this amount of money and can only withdraw more than 1 euro, please input a different amount or type \"cancel\"")
 
 
 def showAccount():
