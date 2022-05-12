@@ -22,6 +22,8 @@ transactionCommands = ["help", "cancel", "exit"]
 
 clientsInfo = []
 
+user = ""
+userIdx = None
 
 class Account:
     def __init__(self, name, balance):
@@ -71,14 +73,6 @@ class Loan:
 
         if self.time <= loanMaxMonths:
             self.amount = float(round(self.amount * currentLoanInterest, 2))
-
-
-clientsInfo.append(Account("siper", 4000))
-
-clientsInfo[0].loans.append(Loan(200))
-
-user = ""
-userIdx = None
 
 
 def welcome():
