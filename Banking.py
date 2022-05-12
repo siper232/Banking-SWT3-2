@@ -390,6 +390,7 @@ def correctMoney(amount):
             return True
         else:
             print("Your amount can only be above 0 euros.\nPlease try again\n")
+            return False
 
     except ValueError:
 
@@ -408,6 +409,7 @@ def correctMoney(amount):
                         return True
                     else:
                         print("Your amount can only be above 0 euros.\nPlease try again\n")
+                        return False
 
                 else:
                     print(
