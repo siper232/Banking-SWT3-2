@@ -336,7 +336,7 @@ def makeWithdrawal():
                 exit()
             else:
                 if correctMoney(command):
-                    if (clientsInfo[userIdx].balance >= float(command)):
+                    if clientsInfo[userIdx].balance >= float(command) and float(command) > 0:
                         clientsInfo[userIdx].makeWithdrawal(command)
                         print("You have successfully withdrawn " +
                               str(float(command)) + " euros\n")
@@ -386,8 +386,10 @@ def correctMoney(amount):
     try:
         money = int(amount)
         money = float(amount)
-
-        return True
+        if money > 0:
+            return True
+        else:
+            print("Your amount can only be above 0 euros.\nPlease try again\n")
 
     except ValueError:
 
@@ -402,7 +404,10 @@ def correctMoney(amount):
 
                     money = float(amount)
 
-                    return True
+                    if money > 0:
+                        return True
+                    else:
+                        print("Your amount can only be above 0 euros.\nPlease try again\n")
 
                 else:
                     print(
