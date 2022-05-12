@@ -105,6 +105,7 @@ def welcome():
 def login():
     global user
     global userIdx
+    global totalMoney
 
     succeeded = False
     clientNames = [client.name for client in clientsInfo]
@@ -173,6 +174,7 @@ def signup():
                           str(minBalance) + " euros.\nPlease try again\n")
                 else:
                     makeAccount(user, float(command))
+                    totalMoney += float(command)
                     accountSucceeded = True
 
     print("You have successfully created your account. You will be redirected to the home page.\n")
