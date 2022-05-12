@@ -1,6 +1,9 @@
+import math
+
 maxLoanAmount = 10000.00
 maxLoans = 3
 minBalance = 50.00
+maxTransfer = 5000
 
 interestRate = 0.05  # 5%
 startInterestLoan = 0.1  # 10%
@@ -29,9 +32,13 @@ class Account:
 
     def makeDeposit(self, deposit):
         self.balance = float(round(self.balance + deposit, 2))
+        if self.balance > 0:
+            self.locked = False
 
     def makeWithdrawal(self, withdraw):
         self.balance = float(round(self.balance - withdraw, 2))
+        if self.balance <= 0:
+            self.locked = True
 
     def makeLoanDeposit(self, idx, deposit):
         self.loans[idx].makeDeposit(deposit)
@@ -41,11 +48,13 @@ class Account:
 
     def addMonth(self):
         anyOvertime = False
+        makeWithdrawal(self.balance * (1 - interestRate))
         for idx, loan in enumerate(self.loans):
             self.loans[idx].addMonth()
             if self.loans[idx].time > loanMaxMonths:
-                # add draining and add interest based on totalMoney
                 anyOvertime = True
+            if self.loans[idx].time > loanMaxMonths + 1:
+                makeLoanDeposit(idx, self.loans[idx].amount)
         self.locked = anyOvertime
 
 
@@ -230,6 +239,7 @@ def newLoan():
                     if float(command) < maxLoanAmount:
                         newLoan = Loan(float(command))
                         clientsInfo[userIdx].loans.append(newLoan)
+                        clientsInfo[userIdx].makeDeposit(float(command))
                         print("Your new loan has been created with an amount of " +
                               str(float(command)) + " euros\n")
                         completed = True
@@ -240,6 +250,7 @@ def newLoan():
 
 def makeDeposit():
     global totalMoney
+    global currentLoanInterest
 
     completed = False
 
@@ -254,11 +265,16 @@ def makeDeposit():
             exit()
         else:
             if correctMoney(command):
-                clientsInfo[userIdx].makeDeposit(command)
-                print("You have successfully deposited " +
-                      str(float(command)) + " euros\n")
-                totalMoney += float(command)
-                completed = True
+                if float(command) <= maxTransfer:
+                    clientsInfo[userIdx].makeDeposit(float(command))
+                    print("You have successfully deposited " +
+                        str(float(command)) + " euros\n")
+                    totalMoney += float(command)
+                    if currentLoanInterest < 1:
+                        currentLoanInterest = round(startInterestLoan + (maxAdaptation * math.floor(totalMoney / maxTransfer)), 3)
+                    completed = True
+                else:
+                    print("You can only make a deposit of max " + str(maxTransfer) + " euros\nPlease try again\n")
 
 
 def makeLoanDeposit():
@@ -320,6 +336,7 @@ def makeLoanDeposit():
 
 def makeWithdrawal():
     global totalMoney
+    global currentLoanInterest
 
     completed = False
     if clientsInfo[userIdx].locked:
@@ -337,11 +354,16 @@ def makeWithdrawal():
             else:
                 if correctMoney(command):
                     if clientsInfo[userIdx].balance >= float(command) and float(command) > 0:
-                        clientsInfo[userIdx].makeWithdrawal(command)
-                        print("You have successfully withdrawn " +
-                              str(float(command)) + " euros\n")
-                        totalMoney -= float(command)
-                        completed = True
+                        if float(command) <= maxTransfer:
+                            clientsInfo[userIdx].makeWithdrawal(float(command))
+                            print("You have successfully withdrawn " +
+                                str(float(command)) + " euros\n")
+                            totalMoney -= float(command)
+                            if currentLoanInterest > 0:
+                                currentLoanInterest = round(startInterestLoan + (maxAdaptation * math.floor(totalMoney / maxTransfer)), 3)
+                            completed = True
+                        else:
+                            print("You can only make a withdraw of max " + str(maxTransfer) + " euros\nPlease try again\n")
                     else:
                         print(
                             "You do not have the balance to withdraw this amount of money, please input a different amount or type \"cancel\"")
@@ -352,7 +374,7 @@ def showAccount():
     print("\nName: " + client.name + "\nBalance: {:.2f} euro\nLoans:".format(client.balance))
     print("\tAmount\t\tCurrent interest\tLoan next month\t\tMonths to pay off")
     for idx, loan in enumerate(client.loans):
-        print(str(idx + 1) + "\t{:.2f} euro\t{:.2f}%\t\t\t{:.2f} euro\t\t{:n} month(s)".format(loan.amount, currentLoanInterest*100, round(loan.amount + (loan.amount * currentLoanInterest), 2), loanMaxMonths - loan.time))
+        print(str(idx + 1) + "\t{:.2f} euro\t{:.1f}%\t\t\t{:.2f} euro\t\t{:n} month(s)".format(loan.amount, currentLoanInterest*100, round(loan.amount + (loan.amount * currentLoanInterest), 2), loanMaxMonths - loan.time))
     print("")
 
 
