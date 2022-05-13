@@ -128,6 +128,7 @@ def login():
 
 def signup():
     global user
+    global totalMoney
 
     usernameSucceeded = False
     accountSucceeded = False
