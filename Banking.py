@@ -323,7 +323,7 @@ def makeLoanDeposit():
                                                 "You can't deposit more money than needed to pay off your loan.\n")
                                     else:
                                         print(
-                                            "You don't have enough money in your balance to pay this amount or your deposit is less than 1 euro.\n")
+                                            "You don't have enough money in your balance to pay this amount or your deposit is less than 1 cent.\n")
                     else:
                         print("This loan does not exist, please try again.\n")
                 except ValueError:
