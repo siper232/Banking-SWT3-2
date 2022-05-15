@@ -78,7 +78,7 @@ class Loan:
 def welcome():
     global user
 
-    print("\n\n\nWelcome to the bank of fuck you, we give no fucks :)\n\n")
+    print("\n\n\nWelcome to the MSSG bank, for all your banking needs :)\n\n")
     print("For a list of all commands at any point type \"help\".\n")
 
     while True:
@@ -104,7 +104,7 @@ def login():
     succeeded = False
     clientNames = [client.name for client in clientsInfo]
 
-    print("\n\nWelcome to fuck you bank login.\n")
+    print("\n\nWelcome to MSSG login.\n")
 
     while not succeeded:
         command = input("Please provide your username to log in.\n")
@@ -134,7 +134,7 @@ def signup():
     accountSucceeded = False
     clientNames = [client.name for client in clientsInfo]
 
-    print("\n\nWelcome to fuck you bank signup\n")
+    print("\n\nWelcome to MSSG signup\n")
 
     while not usernameSucceeded:
         command = input("Please insert your username\n")
@@ -182,7 +182,7 @@ def loggedIn():
 
     online = True
 
-    print("\n\nWelcome " + user + ", to the fuck you bank.\n\n")
+    print("\n\nWelcome " + user + ", to the MSSG bank.\n\n")
     while online:
         command = input("How can we help you today?\n")
         if command == "help":
