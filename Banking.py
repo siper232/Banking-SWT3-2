@@ -16,8 +16,8 @@ totalMoney = 0
 homeLogin = ["help", "login", "signup", "exit"]
 loginCommands = ["help", "home", "signup", "exit"]
 signupCommands = ["help", "home", "login", "exit"]
-loggedInCommands = ["help", "logout", "checkAccount", "createLoan",
-                    "makeDeposit", "makeLoanDeposit", "makeWithdrawal", "exit"]
+loggedInCommands = ["help", "logout", "checkAccount", "createLoan", "makeDeposit",
+                    "makeLoanDeposit", "makeWithdrawal", "skipMonth", "exit"]
 transactionCommands = ["help", "cancel", "exit"]
 
 clientsInfo = []
