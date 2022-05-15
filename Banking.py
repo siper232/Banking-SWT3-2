@@ -78,7 +78,7 @@ class Loan:
 def welcome():
     global user
 
-    print("\n\n\nWelcome to the MSSG bank, for all your banking needs :)\n\n")
+    print("Welcome to the MSSG bank, for all your banking needs :)\n\n")
     print("For a list of all commands at any point type \"help\".\n")
 
     while True:
